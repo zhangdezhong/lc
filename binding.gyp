@@ -5,7 +5,6 @@
       "sources": [
         "./cpp/addon.cc",
         "./cpp/bag.cc",
-        "./cpp/hack.cc",
         "./cpp/lru.cc",
         "./cpp/substr.cc",
         "./cpp/subarr.cc",
