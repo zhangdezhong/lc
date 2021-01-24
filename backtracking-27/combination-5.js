@@ -22,11 +22,11 @@ var combine = function(n, k) {
 var combinationSum = function(candidates, target) {
     const result = [];
     function dfs(start, arr, sum) {
-        if (sum == target) {
-            return result.push([...arr]);
-        }
         if (sum > target) {
             return;
+        }
+        if (sum == target) {
+            return result.push([...arr]);
         }
         for (let i = start; i < candidates.length; i++) {
             arr.push(candidates[i]);
