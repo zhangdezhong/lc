@@ -1,7 +1,6 @@
 #include <nan.h>
 #include <vector>
 #include "bag.cc"
-#include "hack.cc"
 #include "lru.cc"
 #include "substr.cc"
 #include "subarr.cc"
@@ -77,14 +76,7 @@ NAN_METHOD(Test) {
     std::cout << subarr->MaxSubArray(arr) << std::endl;
 }
 
-NAN_METHOD(NCount) {
-    std::string path = *Utf8String(info[0]);
-    Callback* callback = new Callback(To<Function>(info[1]).ToLocalChecked());
-    AsyncQueueWorker(new MapPiWorker(callback, path));
-}
-
 NAN_MODULE_INIT(InitAll) {
-    Set(target, New<String>("count").ToLocalChecked(), GetFunction(New<FunctionTemplate>(NCount)).ToLocalChecked());
     Set(target, New<String>("test").ToLocalChecked(), GetFunction(New<FunctionTemplate>(Test)).ToLocalChecked());
     Set(target, New<String>("lru").ToLocalChecked(), GetFunction(New<FunctionTemplate>(Lru)).ToLocalChecked());
 }
