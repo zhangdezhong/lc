@@ -15,16 +15,18 @@ var isBalanced = function(root) {
     return Math.abs(leftHeight - rightHeight) <= 1 && isBalanced(root.left) && isBalanced(root.right);
 };
 var isBalanced = function(root) {
-    function dfsHeight (root) {
-        if (root == null) return 0;
-        let leftHeight = dfsHeight(root.left);
-        if (leftHeight == -1) return -1;
-        let rightHeight = dfsHeight (root.right);
-        if (rightHeight == -1) return -1;
-        if (Math.abs(leftHeight - rightHeight) > 1)  return -1;
-        return Math.max(leftHeight, rightHeight) + 1;
+    function getDepth (root) {
+        if(root == null) return 0;
+        let left = getDepth(root.left);
+        if(left != -1){
+            let right = getDepth(root.right);
+            if(right != -1){
+                return Math.abs(left - right) <= 1 ? 1 + Math.max(left, right) : -1;
+            }
+        }
+        return -1;
     }
-    return dfsHeight (root) != -1;
+    return getDepth (root) != -1;
 }
 // 101. 对称二叉树
 // https://leetcode-cn.com/problems/symmetric-tree/
@@ -33,7 +35,7 @@ var isBalanced = function(root) {
 var isSymmetric = function(root) {
     function isSymmetricHelp(left, right){
         if(left == null || right == null) {
-            return left==right;
+            return left == right;
         }
         if(left.val != right.val) {
             return false;
@@ -61,10 +63,7 @@ function isSymmetric(root) {
 // https://leetcode-cn.com/problems/er-cha-shu-de-jing-xiang-lcof/
 var mirrorTree = function(root) {
     if(!root || root.length ==  0) return root;
-    [root.left, root.right] = [root.right, root.left]
-    // const leftCopy = root.left;
-    // root.left = root.right;
-    // root.right = leftCopy;
+    [root.left, root.right] = [root.right, root.left];
     
     mirrorTree(root.left)
     mirrorTree(root.right)
