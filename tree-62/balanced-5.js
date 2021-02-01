@@ -9,10 +9,10 @@ var isBalanced = function(root) {
     }
     if (!root) return true;
     
-    let left=depth(root.left);
-    let right=depth(root.right);
+    let leftHeight = depth(root.left);
+    let rightHeight = depth(root.right);
     
-    return Math.abs(left - right) <= 1 && isBalanced(root.left) && isBalanced(root.right);
+    return Math.abs(leftHeight - rightHeight) <= 1 && isBalanced(root.left) && isBalanced(root.right);
 };
 var isBalanced = function(root) {
     function dfsHeight (root) {
