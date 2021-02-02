@@ -2,6 +2,8 @@
 // https://leetcode-cn.com/problems/balanced-binary-tree/
 // 面试题 04.04. 检查平衡性
 // https://leetcode-cn.com/problems/check-balance-lcci/
+// 剑指 Offer 55 - II. 平衡二叉树
+// https://leetcode-cn.com/problems/ping-heng-er-cha-shu-lcof/
 var isBalanced = function(root) {
     function depth (root) {
         if (!root) return 0;
