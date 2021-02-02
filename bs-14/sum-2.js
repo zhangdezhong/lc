@@ -1,5 +1,7 @@
 // 167. 两数之和 II - 输入有序数组
 // https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/
+// 剑指 Offer 57. 和为s的两个数字
+// https://leetcode-cn.com/problems/he-wei-sde-liang-ge-shu-zi-lcof/
 var twoSum = function(numbers, target) {
     for(let i = 0; i < numbers.length; i++) {
         let mid = binarySearch(i+1, target - numbers[i]);
