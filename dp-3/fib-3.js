@@ -24,11 +24,12 @@ function fib(n) {
 }
 // 优化空间dp
 function fib() {
+  let constant = 1000000007;
   if (n < 2) return n;
   let fisrt = 0; //70, 剑指 Offer 10- II first = 1;
   let second = 1;
   for (let i = 2; i <= n; i++) {
-    [fisrt, second] = [second,fisrt+ second]
+    [fisrt, second] = [second%constant,(fisrt+ second)%constant]
   }
   return second;
 }

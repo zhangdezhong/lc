@@ -36,6 +36,22 @@ var removeNthFromEnd = function(head, n) {
     slow.next = slow.next.next;
     return dummy.next;
 };
+// 面试题 02.01. 移除重复节点
+// https://leetcode-cn.com/problems/remove-duplicate-node-lcci/
+var removeDuplicateNodes = function(head) {
+    let set = new Set();
+    let pre = new ListNode();
+    let cur = pre;
+    while(head) {
+        if(!set.has(head.val)) {
+            set.add(head.val);
+            cur.next = new ListNode(head.val);
+            cur = cur.next
+        }
+        head = head.next;
+    }
+    return pre.next;
+};
 // 删除排序链表中的重复元素
 // 83. 删除排序链表中的重复元素
 // https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/

@@ -34,3 +34,33 @@ var search = function(nums, target) {
     }
     return helper(nums, target) - helper(nums, target - 1);
 }
+// 34. 在排序数组中查找元素的第一个和最后一个位置
+// https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+var searchRange = function(nums, target) {
+    function search(nums, target) {
+        let left = 0;
+        let right = nums.length - 1;
+        while(left <= right) {
+            let mid = left + (right-left >> 1);
+            if(nums[mid] == target) {
+                return mid;
+            } else if(nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return -1;
+    }
+    let left = right = search(nums, target);
+    if(left != -1) {
+        while(nums[left] == target) {
+            left--;
+        }
+        while(nums[right] == target) {
+            right++;
+        }
+        return [left+1, right-1]
+    }
+    return [left, right]
+};

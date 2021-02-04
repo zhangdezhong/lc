@@ -1,7 +1,6 @@
 // 346. 数据流中的移动平均值
 // https://leetcode-cn.com/problems/moving-average-from-data-stream/
 const Deque = require('../design/deque')
-const assert = require('assert');
 class MovingAverage {
   constructor(size) {
     this.arr = [];

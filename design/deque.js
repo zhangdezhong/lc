@@ -40,6 +40,12 @@ class Deque {
   peekBack() { 
     return this.back && this.back.value;
   }
+  isEmpty() {
+    if (this.front == undefined && this.back == undefined) {
+      return true;
+    }
+    return false;
+  }
 }
 
 module.exports = Deque;
