@@ -13,7 +13,6 @@ var solveNQueens  = function(n)  {
                             }
                         }
                     }
-                    
                     return false;
                 }
             }
@@ -22,11 +21,11 @@ var solveNQueens  = function(n)  {
     }
     function isValid(board, row, col, c) {
         for(let i = 0; i < 9; i++) {
-            if(board[i][col] != '.' && board[i][col] == c) return false;
-            if(board[row][i] != '.' && board[row][i] == c) return false;
+            if(bboard[i][col] == c) return false;
+            if(board[row][i] == c) return false;
             let boxi = 3 * Math.floor(row / 3) + Math.floor(i / 3);
             let boxj = 3 * Math.floor(col / 3) + i % 3
-            if(board[boxi][boxj] != '.' && board[boxi][boxj] == c) return false; 
+            if(board[boxi][boxj] == c) return false; 
         }
         return true;
     }
@@ -64,7 +63,8 @@ var isValidSudoku = function(board) {
         
     return true;
 }
-// 37解数独 https://leetcode-cn.com/problems/sudoku-solver/
+// 37解数独 
+// https://leetcode-cn.com/problems/sudoku-solver/
 var solveSudoku = function(board) {
     function solve(board){
         for(let i = 0; i < board.length; i++){

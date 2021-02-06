@@ -48,3 +48,15 @@ var kthSmallest = function(root, k) {
     dfs(root);
     return number;
 };
+// 270. 最接近的二叉搜索树值
+// https://leetcode-cn.com/problems/closest-binary-search-tree-value/
+var closestValue = function(root, target) {
+    let val;
+    let closestValue = root.val;
+    while(root != null) {
+        val = root.val;
+        closestValue = Math.abs(val - target) < Math.abs(closestValue - target) ? val : closestValue;
+        root = target < root.val ? root.left : root.right;
+    }
+    return closestValue;
+};
