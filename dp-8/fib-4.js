@@ -33,5 +33,15 @@ function fib() {
   }
   return second;
 }
+// 746. 使用最小花费爬楼梯
+// https://leetcode-cn.com/problems/min-cost-climbing-stairs/
+var minCostClimbingStairs = function(cost) {
+  let f1 = cost[0];
+  let f2 = cost[1];
+  for (let i = 2; i < cost.length; i++) {
+      [f1, f2] = [f2, cost[i] + Math.min(f1, f2)];
+  }
+  return Math.min(f1, f2);
+};
 
 

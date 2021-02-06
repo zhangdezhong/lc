@@ -15,3 +15,17 @@ var removeDuplicates = function(nums) {
     } 
     return i+1
 };
+var findRepeatNumber = function(nums) {
+    let arr = new Array(nums.length).fill(0);
+    for(let i = 0; i < nums.length;  i++) {
+        arr[nums[i]]++;
+    }
+    let max = 0, index = 0;
+    for(let i = 0; i < arr.length; i++ ) {
+        if(arr[i] >  max) {
+            index = i;
+            max = arr[i]
+        }
+    }
+    return index;
+};

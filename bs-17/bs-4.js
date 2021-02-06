@@ -64,3 +64,16 @@ var searchRange = function(nums, target) {
     }
     return [left, right]
 };
+// 剑指 Offer 04. 二维数组中的查找
+// https://leetcode-cn.com/problems/er-wei-shu-zu-zhong-de-cha-zhao-lcof/
+var findNumberIn2DArray = function(matrix, target) {
+    if (matrix == null || matrix.length == 0 || matrix[0].length == 0) return false;
+    let i = 0;
+    let j = matrix[0].length - 1;
+    while (i < matrix.length && j >= 0) {
+        if ( matrix[i][i] == target) return true;
+        else if ( matrix[i][i] > target) j--;
+        else i++;
+    }
+    return false;
+}
