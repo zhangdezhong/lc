@@ -58,7 +58,6 @@ var findMin = function(nums) {
     let end = nums.length - 1;
     while (start < end) {
         let mid = start +  (end - start >> 1);
-        console.log(start, end, mid);
         if (nums[start] < nums[end]) return nums[start];
         if (nums[mid] >= nums[start]) {
             start = mid+1;

@@ -38,3 +38,19 @@ var searchMatrix = function(matrix, target) {
     }
     return false;
 }
+// 240. 搜索二维矩阵 II
+// https://leetcode-cn.com/problems/search-a-2d-matrix-ii/
+var searchMatrix = function(matrix, target) {
+    let row = matrix.length-1;
+    let col = 0;
+    while (row >= 0 && col < matrix[0].length) {
+        if (matrix[row][col] > target) {
+            row--;
+        } else if (matrix[row][col] < target) {
+            col++;
+        } else {
+            return true;
+        }
+    }
+    return false;
+};

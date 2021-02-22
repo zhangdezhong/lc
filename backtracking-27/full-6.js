@@ -43,7 +43,9 @@ var permuteUnique = function(nums) {
     return ans;
 };
 // 剑指 Offer 38. 字符串的排列
+// https://leetcode-cn.com/problems/zi-fu-chuan-de-pai-lie-lcof/
 // 面试题 08.07. 无重复字符串的排列组合
+// https://leetcode-cn.com/problems/permutation-i-lcci/
 var permutation = function(s) {
     const res = []
     const visit = []
@@ -86,7 +88,7 @@ var numTilePossibilities = function(tiles) {
     let ans = 0;
     let visit = [];
     tiles = tiles.split('').sort().join('');
-    const dfs = () => {
+    function dfs() {
         for (let i = 0; i < tiles.length;i++){
             if (visit[i]|| 
                 (i > 0 && tiles[i] == tiles[i - 1] && !visit[i - 1]))

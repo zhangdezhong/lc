@@ -44,26 +44,31 @@ function merge(lists, l, r) {
 }
 // 2. 两数相加
 // https://leetcode-cn.com/problems/add-two-numbers/
+// 面试题 02.05. 链表求和
+// https://leetcode-cn.com/problems/sum-lists-lcci/
 var addTwoNumbers = function(l1, l2) {
-    let c1 = l1;
-    let c2 = l2;
-    let dummy = new ListNode(0);
-    let d = dummy;
-    let sum = 0;
-    while (c1 || c2) {
-        sum /= 10;
-        if (c1) {
-            sum += c1.val;
-            c1 = c1.next;
-        }
-        if (c2) {
-            sum += c2.val;
-            c2 = c2.next;
-        }
-        d.next = new ListNode(sum % 10);
-        d = d.next;
+    let head = null, dummy = null;
+    let carry = 0;
+    head = dummy = new ListNode(0);
+    while(l1 || l2 || carry != 0) {
+        let sum = (l1?.val || 0) + (l2?.val || 0) + carry;
+        carry = Math.floor(sum / 10);
+        dummy.next = new ListNode(sum % 10);
+        dummy = dummy.next;
+        l1 = l1?.next;
+        l2 = l2?.next;
     }
-    if (sum / 10 == 1)
-        d.next = new ListNode(1);
-    return dummy.next;
+    return head.next;
 };
+var addTwoNumbers = function(l1, l2) {
+    let head = new ListNode(0);
+    function helper(result, l1, l2, carry) {
+        if (!l1 && !l2 && carry == 0) return;
+        let sum = (l1?.val || 0) + (l2?.val || 0) + carry;
+        carry = Math.floor(sum / 10);
+        result.next = new ListNode(sum % 10);
+        helper(result.next, l1?.next, l2?.next, carry);
+    }
+    helper(head, l1, l2, 0);
+    return head.next;
+}

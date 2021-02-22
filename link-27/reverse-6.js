@@ -22,14 +22,13 @@ var reverseList = function(head) {
 }
 // 迭代  206 反转链表
 var reverseList = function(head) {
-    let cur = head;
     let prev = null;
-    while(cur) {
-        // [cur.next, prev, cur] = [prev, cur, cur.next];
-        let next = cur.next;
-        cur.next = prev;
-        prev = cur;
-        cur = next;
+    while(head) {
+        // [head.next, prev, head] = [prev, head, head.next];
+        let next = head.next;
+        head.next = prev;
+        prev = head;
+        head = next;
     }
     return prev
 };
