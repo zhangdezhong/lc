@@ -30,3 +30,47 @@ var pacificAtlantic = function(matrix) {
     }
     return res;
 }
+
+var pacificAlantic = function(matrix) {
+    let ansList = [];
+    if (!matrix || matrix.length == 0) return ansList;
+    let row = matrix.length, col = matrix[0].length;
+    let dirArr = [[1, 0], [0, 1], [-1, 0], [0, -1]];
+    let pVisited = new Array(row);
+    let aVisited = new Array(row);
+    for (let i = 0; i < row; i++) {
+        pVisited[i] = new Array(col).fill(false);
+        aVisited[i] = new Array(col).fill(false);
+    }
+    for (let i = 0; i < row; i++) {
+        for (let j = 0; j < col; j++) {
+            if (i == 0 || j == 0) {
+                dfs(pVisited, i, j, matrix[i][j]);
+            }
+            if (i == row - 1 || j == col - 1) {
+                dfs(aVisited, i, j, matrix[i][j]);
+            }
+        }
+    }
+    for (let i = 0; i < row; i++) {
+        for (let j = 0; j < col; j++) {
+            if (pVisited[i][j] && aVisited[i][j]) {
+                ansList.push([i, j]);
+            }
+        }
+    }
+    function dfs(visited, r, c, height) {
+        if (inArea(r, c) && !visited[r][c] && matrix[r][c] >= height) {
+            visited[r][c] = true;
+            for (let dir of dirArr) {
+                dfs(visited, r + dir[0], c + dir[1], matrix[r][c]);
+            }
+        }
+
+    }
+
+    function inArea(r, c) {
+        return r >=0 && r < matrix.length && c >=0 && c < matrix[0].length;
+    }
+    return ansList;
+}
