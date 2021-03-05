@@ -35,16 +35,16 @@ var isBalanced = function(root) {
 // 剑指 Offer 28. 对称的二叉树
 // https://leetcode-cn.com/problems/dui-cheng-de-er-cha-shu-lcof/
 var isSymmetric = function(root) {
-    function isSymmetricHelp(left, right){
-        if(left == null || right == null) {
-            return left == right;
+    if (!root) return true;
+    function helper(left, right){
+        if (!left && !right) return true;
+        if (!left || !right) return false;
+        if (left.val == right.val) {
+            return helper(left.left, right.right) && helper(left.right, right.left);;
         }
-        if(left.val != right.val) {
-            return false;
-        }
-        return isSymmetricHelp(left.left, right.right) && isSymmetricHelp(left.right, right.left);
+        return false;
     }
-    return root==null || isSymmetricHelp(root.left, root.right);
+    return helper(root.left, root.right);
 };
 function isSymmetric(root) {
     if (root == null) return true;

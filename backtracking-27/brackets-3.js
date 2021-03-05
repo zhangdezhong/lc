@@ -30,6 +30,27 @@ var generateParenthesis = function(n) {
         dfs(left + 1, right, ans+'(');
         dfs(left, right + 1, ans+')');
     }
+    function bfs(left, right) {
+        let queue = [[left, right]];
+        let directions = [[1, 0], [0, 1]];
+        while (queue.length > 0) {
+            let front = queue.shift();
+            let curL = front[0];
+            let curR = front[1];
+            for (let direction of directions) {
+                let newL = curL + direction[0];
+                let newR = curR + direction[1];
+                if (
+                    newL > n || newR > n || newR > newL
+                ) continue;
+                if(newL == newR && newL == n) {
+                    res.push(ans);
+                    return;
+                }
+                queue.push([newL, newR]);
+            }
+        }
+    }
     dfs(0,0, '')
     return res;
 }

@@ -12,8 +12,8 @@ var canFinish = function(numCourses, prerequisites) {
 
     function dfs(course){
         if(visited[course]) return false;
-        else visited[course] = true;;
-
+        
+        visited[course] = true;;
         for(let i = 0; i < graph[course].length; i++){
             if(!dfs(graph[course][i])) return false;
         }
@@ -26,30 +26,27 @@ var canFinish = function(numCourses, prerequisites) {
     }
     return true;
 };
-
+// 210. 课程表 II
+// https://leetcode-cn.com/problems/course-schedule-ii/
 var findOrder = function(numCourses, prerequisites) {
     const adjList = new Map();
     const pending = new Set();
     const visited = new Set();
     const result = [];
     
-    // create the adjacency list
     for(let [course, pre] of prerequisites) {
         adjList.set(pre, (adjList.get(pre) || new Set()).add(course));
     }
     
     for(let c = 0; c < numCourses; c++) {
-        // if cyclic return empty array;
         if(callDFS(c)) return [];
     }
     
     function callDFS(node) {
-        // if cyclic return 'true';
         if(pending.has(node)) return true;
         if(visited.has(node)) return;
         pending.add(node);
         
-        // loop over the adjacent nodes
         for(let next of (adjList.get(node) || [])) {
             if(callDFS(next)) return true;
         }

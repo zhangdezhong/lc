@@ -59,8 +59,13 @@ var numIslands = function(grid) {
 // https://leetcode-cn.com/problems/number-of-closed-islands/
 var closedIsland = function(grid) {
     let res = 0;
+    let rows = grid.length;
+    let cols = grid[0].length;
     function dfs(i, j){
-        if (i < 0 || j < 0 || i >= grid.length || j >= grid[0].length) return false;
+        if (
+            i < 0 || i >= rows || 
+            j < 0 || j >= cols
+        ) return false;
         if (g[i][j] == 1) return true;
         g[i][j] = 1;
         let l1 = dfs(i+1, j);
@@ -80,7 +85,7 @@ var closedIsland = function(grid) {
             for (let i = 0; i < 4; i++) {
                 let curr = pos[0] + vr[i];
                 let curc = pos[1] + vc[i];
-                if (curr < 0 || curr >= grid.length || curc < 0 || curc >= grid[0].length) {
+                if (curr < 0 || curr >= rows || curc < 0 || curc >= cols) {
                     ret = 0;
                     continue;
                 }
@@ -91,8 +96,8 @@ var closedIsland = function(grid) {
         }
         return ret;        
     }
-    for (let i = 0; i < grid.length; i++){
-        for (let j = 0; j < grid[0].length; j++){
+    for (let i = 0; i < rows; i++){
+        for (let j = 0; j < cols; j++){
             if (grid[i][j] == 0 && dfs(grid, i, j)){
                 res++;
             }
