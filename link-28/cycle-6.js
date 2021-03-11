@@ -13,7 +13,6 @@ var hasCycle = function(head) {
 };
 // 递归
 var hasCycle = function(head) {
-    let slow = head;
     if(!head || !head.next || !head.next.next) {
         return false;
     }
@@ -22,7 +21,7 @@ var hasCycle = function(head) {
         if(fast == slow) return true;
         return helper(slow.next, fast.next.next);
     }
-    return helper(slow, head.next.next);
+    return helper(head, head.next.next);
 };
 // 迭代
 var hasCycle = function(head) {
@@ -56,7 +55,6 @@ var detectCycle = function(head) {
     }
     return fast;
 };
-
 // 160. 相交链表
 // https://leetcode-cn.com/problems/intersection-of-two-linked-lists/
 // https://leetcode-cn.com/problems/liang-ge-lian-biao-de-di-yi-ge-gong-gong-jie-dian-lcof/

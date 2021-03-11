@@ -6,4 +6,3 @@ var largestNumber = function(nums) {
   });
   return nums[0] ? nums.join('')  :  '0';
 };
-
