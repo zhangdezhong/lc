@@ -47,6 +47,18 @@ function merge(lists, l, r) {
 // 面试题 02.05. 链表求和
 // https://leetcode-cn.com/problems/sum-lists-lcci/
 var addTwoNumbers = function(l1, l2) {
+    let head = new ListNode(0);
+    function helper(result, l1, l2, carry) {
+        if (!l1 && !l2 && carry == 0) return;
+        let sum = (l1?.val || 0) + (l2?.val || 0) + carry;
+        carry = Math.floor(sum / 10);
+        result.next = new ListNode(sum % 10);
+        helper(result.next, l1?.next, l2?.next, carry);
+    }
+    helper(head, l1, l2, 0);
+    return head.next;
+}
+var addTwoNumbers = function(l1, l2) {
     let head = null, dummy = null;
     let carry = 0;
     head = dummy = new ListNode(0);
@@ -61,14 +73,27 @@ var addTwoNumbers = function(l1, l2) {
     return head.next;
 };
 var addTwoNumbers = function(l1, l2) {
-    let head = new ListNode(0);
-    function helper(result, l1, l2, carry) {
-        if (!l1 && !l2 && carry == 0) return;
-        let sum = (l1?.val || 0) + (l2?.val || 0) + carry;
-        carry = Math.floor(sum / 10);
-        result.next = new ListNode(sum % 10);
-        helper(result.next, l1?.next, l2?.next, carry);
+    let stack1 = [];
+    let stack2 = [];
+    while(l1) {
+        stack1.push(l1.val);
+        l1 = l1.next;
     }
-    helper(head, l1, l2, 0);
-    return head.next;
-}
+    while(l2) {
+        stack2.push(l2.val);
+        l2 = l2.next;
+    }
+    let carry = 0;
+    let pre = null;
+    while (stack1.length || stack2.length || carry != 0) {
+        let a = stack1.length ? stack1.pop() : 0;
+        let b = stack2.length ? stack2.pop() : 0;
+        let cur = a + b + carry;
+        carry = Math.floor(cur / 10);
+        cur %= 10;
+        let curnode = new ListNode(cur);
+        curnode.next = pre;
+        pre = curnode;
+    }
+    return pre;
+};

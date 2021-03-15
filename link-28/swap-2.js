@@ -25,12 +25,25 @@ var swapPairs = function(head) {
 // 328. 奇偶链表
 // https://leetcode-cn.com/problems/odd-even-linked-list/
 var oddEvenList = function(head) {
+    if(!head) return null;
+    function helper(odd, even){
+        if(!even || !even.next) return odd;
+        odd.next = even.next;
+        even.next = odd.next.next;
+        return helper(odd.next, even.next);
+    }
+    let even = head.next;
+    let odd = helper(head, head.next);
+    odd.next = even;
+    return head;  
+};
+var oddEvenList = function(head) {
     if (head == null) return null;
     let odd = head, even = head.next, evenHead = even;
-    while (even != null && even.next != null) {
+    while (!even && !even.next) {
         odd.next = even.next;
-        odd = odd.next;
         even.next = odd.next;
+        odd = odd.next;
         even = even.next;
     }
     odd.next = evenHead;

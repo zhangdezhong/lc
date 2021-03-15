@@ -49,6 +49,27 @@ var detectCycle = function(head) {
         if (fast == slow) break;
     }
     fast = head;
+    console.log(slow);
+    while (slow != fast) {
+        slow = slow.next;
+        fast = fast.next;
+    }
+    return fast;
+};
+var detectCycle = function(head) {
+    if (!head || !head.next || !head.next.next) return null;
+    let slow = null;
+    function helper(islow, ifalst) {
+        if (!ifalst || !ifalst.next || !ifalst.next.next) return;
+        if (islow == ifalst) {
+            slow = islow;
+            return
+        }
+        return helper(islow.next, ifalst.next.next);
+    }
+    helper(head.next, head.next.next);
+    if(!slow) return null;
+    fast = head;
     while (slow != fast) {
         slow = slow.next;
         fast = fast.next;
@@ -62,12 +83,19 @@ var detectCycle = function(head) {
 var getIntersectionNode = function(headA, headB) {
     let ha = headA, hb = headB;
     while (ha != hb) {
-        ha = ha != null ? ha.next : headB;
-        hb = hb != null ? hb.next : headA;
+        if (ha != null) {
+            ha = ha.next;
+        } else {
+            ha = headB;
+        }
+        if (hb != null) {
+            hb = hb.next;
+        } else {
+            hb = headA;
+        }
     }
     return ha;
 };
-
 // 61. 旋转链表
 // https://leetcode-cn.com/problems/rotate-list/
 var rotateRight = function(head, k) {
@@ -82,12 +110,11 @@ var rotateRight = function(head, k) {
     tail.next = head; // circle the link
 
     if(k %= len) {
-        // the tail node is the (len-k)-th node (1st node is head)
         for(let i = 0; i <  len - k; i++){
             tail = tail.next;
-        } 
+        }
     }
-    newH = tail.next; 
+    newH = tail.next;
     tail.next = null;
     return newH;
 };
