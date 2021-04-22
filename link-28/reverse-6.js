@@ -76,11 +76,11 @@ var reverseKGroup = function(head, k) {
                 return hair.next;
             }
         }
-        const nex = tail.next;
+        const next = tail.next;
         [head, tail] = myReverse(head, tail);
         // 把子链表重新接回原链表
         pre.next = head;
-        tail.next = nex;
+        tail.next = next;
         pre = tail;
         head = tail.next;
     }
@@ -89,23 +89,19 @@ var reverseKGroup = function(head, k) {
 // 234. 回文链表
 // https://leetcode-cn.com/problems/palindrome-linked-list/
 var isPalindrome = function(head) {
-    let fast = head, slow = head;
-    while (!fast && !fast.next) {
-        fast = fast.next.next;
+    if(!head || !head.next)  return true;
+    let fast = head, slow = head, pre = null;
+    //1、找到链表的中点，链表长度奇偶不影响
+    while(fast && fast.next){
         slow = slow.next;
+        fast =  fast.next.next;
     }
-    if (fast != null) { // odd nodes: let right half smaller
-        slow = slow.next;
-    }
-    slow = reverseList(slow);
-    fast = head;
-    
-    while (slow != null) {
-        if (fast.val != slow.val) {
-            return false;
-        }
-        fast = fast.next;
-        slow = slow.next;
+    pre = reverseList(slow);
+    //3、前后链表进行比较，注意若为奇数链表，后半部分回比前部分多1一个节点，然而我们只比较相同长度的节点值，巧妙地避开这点判断
+    while(head && pre){
+        if(head.val != pre.val)return false;
+        head = head.next;
+        pre = pre.next;
     }
     return true;
 };

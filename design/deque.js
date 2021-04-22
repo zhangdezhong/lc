@@ -1,3 +1,52 @@
+// 622. 设计循环队列
+// https://leetcode-cn.com/problems/design-circular-queue/
+class CircularQueue {
+  constructor(k) {
+    this.capacity = k + 1;
+    this.arr = new Array(this.capacity)
+    this.front = this.rear = 0;
+  }
+  addFront(value) {
+    if (this.isFull()) return false;
+    this.front = (this.front - 1 + this.capacity) % this.capacity;
+    this.arr[this.front] = value;
+    console.log('addFront', this.arr.join(','));
+    return true;
+  }
+  removeFront() {
+    if (this.isEmpty()) return false;
+    this.front = (this.front + 1) % this.capacity;
+    console.log('removeFront', this.arr.join(','));
+    return true;
+  }
+  peekFront() {
+    if (this.isEmpty()) return -1;
+    return this.arr[this.front];
+  }
+  addBack(value) {
+    if (this.isFull()) return false;
+    this.arr[this.rear] = value;
+    this.rear = (this.rear + 1) % this.capacity;
+    console.log('addBack', this.arr.join(','));
+    return true;
+  }
+  removeBack() {
+    if (this.isEmpty()) return false;
+    this.rear = (this.rear - 1 + this.capacity) % this.capacity;
+    console.log('removeBack', this.arr.join(','));
+    return true;
+  }
+  peekBack() {
+    if (this.isEmpty()) return -1;
+    return this.arr[(this.rear - 1 + this.capacity) % this.capacity];
+  }
+  isEmpty() {
+    return this.front == this.rear;
+  }
+  isFull() { // 注意：这个设计是非常经典的做法
+    return (this.rear + 1) % this.capacity == this.front;
+  }
+}
 class Deque {
   constructor() {
     this.front = this.back = undefined;
@@ -45,6 +94,9 @@ class Deque {
       return true;
     }
     return false;
+  }
+  isFull() {
+    return size == capacity;
   }
 }
 

@@ -1,0 +1,21 @@
+1、dom类型
+ Node.ELEMENT_NODE(1)
+ Node.ATTRIBUTE_NODE(2)
+ Node.TEXT_NODE(3)
+ Node.CDATA_SECTION_NODE(4)              CDATASection 类型表示 XML 中特有的 CDATA 区块
+ Node.ENTITY_REFERENCE_NODE(5)
+ Node.ENTITY_NODE(6)
+ Node.PROCESSING_INSTRUCTION_NODE(7) 
+ Node.COMMENT_NODE(8)
+ Node.DOCUMENT_NODE(9)                 DocumentType 类型的节点包含文档的文档类型(doctype)信息
+ Node.DOCUMENT_TYPE_NODE(10)           
+ Node.DOCUMENT_FRAGMENT_NODE(11)       在所有节点类型中，DocumentFragment 类型是唯一一个在标记中没有对应表示的类型
+ Node.NOTATION_NODE(12)
+2、MutationObserver接口
+
+
+
+
+①、如果有一个操作数是布尔值，则在比较相等性之前先将其转换为数值——false转换为0，而true转换为1；
+②、如果一个操作数是字符串，另一个操作数是数值，在比较相等性之前先将字符串转换为数值
+③、如果一个操作数是对象，另一个操作数不是，则调用对象的valueOf()方法，用得到的基本类型值按照前面的规则进行比较

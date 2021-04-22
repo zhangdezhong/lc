@@ -15,48 +15,66 @@ var bubbleSort = function(a, n) {
     }
 }
 // 插入排序
-var insertionSort = function(a, n) {
-    if (n <= 1) return;
-    for (let i = 1; i < n; ++i) {
-        let value = a[i];
+var insertionSort = function(nums) {
+    if (nums.length <= 1) return;
+    for (let i = 1; i < nums.length; ++i) {
+        let tmp = nums[i];
         let j = i - 1;
-        for (; j >= 0; --j) {
-            if (a[j] > value) {
-                a[j+1] = a[j];
+        while(j >= 0) {
+            if (tmp < nums[j]) {
+                nums[j + 1] = nums[j];
             } else {
                 break;
             }
+            j--;
         }
-        a[j+1] = value;
+        nums[j + 1] = value;
     }
 }
 // 合并排序
 var mergeSort = function(nums) {
-    if (nums.length < 2) return nums;
-    var mid = nums.length >> 1;
-    var left = nums.slice(0, mid);
-    var right = nums.slice(mid);
-    function merge(left, right) {
-        var result = [];
-        let lLen = left.length;
-        let rLen = right.length;
-        let l = 0;
-        let r = 0;
-        while(l < lLen && r < rLen){
-            if(left[l] < right[r]){
-                result.push(left[l++]);
-            } else{
-                result.push(right[r++]);
-            }
-        }  
-        return result.concat(left.slice(l)).concat(right.slice(r));
+    let tmp = new Array(nums.length);
+    split(nums, 0, nums.length - 1, tmp);
+    return nums;
+}
+function split(nums, left, right, temp) {
+    if (left == right) return 0;
+    let mid = left + (right - left >> 1);
+    split(nums, left, mid, temp);
+    split(nums, mid + 1, right, temp);
+    if (nums[mid] <= nums[mid + 1]) return;
+    merge(nums, left, mid, right, temp);
+}
+function merge(nums, left, mid, right, temp) {
+    for (let i = left; i <= right; i++) {
+        temp[i] = nums[i];
     }
-   return merge(mergeSort(left), mergeSort(right));
+    let i = left;
+    let j = mid + 1;
+    for (let k = left; k <= right; k++) {
+        if (i == mid + 1) {
+            nums[k] = temp[j];
+            j++;
+        } else if (j == right + 1) {
+            nums[k] = temp[i];
+            i++;
+        } else if (temp[i] <= temp[j]) {
+            nums[k] = temp[i];
+            i++;
+        } else {
+            nums[k] = temp[j];
+            j++;
+        }
+    }
 }
 // 快速排序
 var qsort = function(nums) {
-    let randomInteger = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
-    let swap = (arr, x, y) => ([arr[x], arr[y]] = [arr[y], arr[x]]);
+    function randomInteger(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+    function swap(arr, x, y) {
+        [arr[x], arr[y]] = [arr[y], arr[x]]
+    }
     function partition(arr, start, end, pivot) {
         swap(arr, end, pivot);
         let i = start - 1;
@@ -71,12 +89,11 @@ var qsort = function(nums) {
         return i;
     }
     function qsort(start, end) {
-        if(start < end) {
-            let pivot = randomInteger(start, end);
-            pivot = partition(nums, start, end, pivot);
-            qsort(nums, start, pivot - 1);
-            qsort(nums, pivot + 1, end);
-        }
+        if (start == end) return;
+        let pivot = randomInteger(start, end);
+        pivot = partition(nums, start, end, pivot);
+        qsort(nums, start, pivot - 1);
+        qsort(nums, pivot + 1, end);
     }
     qsort(0, nums.length - 1);
     return nums;

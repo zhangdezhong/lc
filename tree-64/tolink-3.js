@@ -2,7 +2,7 @@
 // https://leetcode-cn.com/problems/flatten-binary-tree-to-linked-list/
 var flatten = function(root) {
     function solve(root, last)    {
-        if(root == null) return last;
+        if(!root) return last;
         root.right = solve(root.left, solve(root.right, last));
         root.left = null;
         return root;
@@ -27,25 +27,41 @@ var flatten = function(root) {
         root.left = null;
     }
 }
+// 897. 递增顺序搜索树
+// https://leetcode-cn.com/problems/increasing-order-search-tree/
+var increasingBST = function(root) {
+    let ans = new TreeNode(0);
+    let cur = ans;
+    inorder(root);
+    function inorder(node) {
+        if (!node) return;
+        inorder(node.left);
+        node.left = null;
+        cur.right = node;
+        cur = node;
+        inorder(node.right);
+    }
+    return ans.right;
+};
 // 426. 将二叉搜索树转化为排序的双向链表
 // https://leetcode-cn.com/problems/convert-binary-search-tree-to-sorted-doubly-linked-list/
 var treeToDoublyList = function(root) {
     if (!root) return null;
-    let first, last;
-    function helper(node) {
-        if (node == null) return;
-        helper(node.left);
-        if (last) {
-            last.right = node;
-            node.left = last;
+    let head, tail;
+    function helper(root) {
+        if (!root) return root;
+        helper(root.left);
+        if (tail) {
+          tail.right = root;
+          root.left = tail;
         } else {
-            first = node;
+          head = root;
         }
-        last = node;
-        helper(node.right);
+        tail = root;
+        helper(root.right);
     }
     helper(root);
-    last.right = first;
-    first.left = last;
-    return first;
+    tail.right = head;
+    head.left = tail;
+    return head;
 }

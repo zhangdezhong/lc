@@ -43,7 +43,6 @@ var preorder = function(root) {
 var inorderTraversal = function(root) {
     let stack = []
     let ans = []
-
     while(root || stack.length) {
         if (root) {
             stack.push(root);
@@ -54,7 +53,6 @@ var inorderTraversal = function(root) {
         ans.push(root.val)
         root = root.right
     }
-
     return ans
 };
 
@@ -74,12 +72,12 @@ var inorderTraversal = function(root) {
 var postorderTraversal = root => {
     let res = [], stack = [];
     while (root || stack.length) {
-        res.unshift(root.val)
+        res.push(root.val)
         if (root.left) stack.push(root.left)
         if (root.right) stack.push(root.right)
         root = stack.pop()
     }
-    return res
+    return res.reverse();
 }
 // 590. N叉树的后序遍历
 // https://leetcode-cn.com/problems/n-ary-tree-postorder-traversal/
