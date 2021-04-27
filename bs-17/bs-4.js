@@ -77,3 +77,82 @@ var findNumberIn2DArray = function(matrix, target) {
     }
     return false;
 }
+
+// 查询第一个
+var search = function(nums, target) {
+    let start = 0;
+    let end = nums.length - 1;
+    while (start <= end) {
+        let mid = start + (end - start >> 1);
+        if (a[mid] > target) {
+            end = mid - 1;
+        } else if (a[mid] < target) {
+            start = mid + 1;
+        } else {
+            if (mid == 0 || nums[mid - 1] != target) {
+                return mid
+            } else {
+                end = mid - 1;
+            }
+        }
+    }
+    return -1;
+};
+// 查询最后一个
+var search = function(nums, target) {
+    let start = 0;
+    let end = nums.length - 1;
+    while (start <= end) {
+        let mid = start + (end - start >> 1);
+        if (a[mid] > target) {
+            end = mid - 1;
+        } else if (a[mid] < target) {
+            start = mid + 1;
+        } else {
+            if (mid == nums.length - 1 || nums[mid + 1] != target) {
+                return mid
+            } else {
+                start = mid + 1;
+            }
+        }
+    }
+    return -1;
+};
+
+// 第一个大于等于值
+var search = function(nums, target) {
+    let start = 0;
+    let end = nums.length - 1;
+    while (start <= end) {
+        let mid = start + (end - start >> 1);
+        if (a[mid] >= target) {
+            if (mid == 0 || nums[mid - 1] < target) {
+                return mid
+            } else {
+                end = mid - 1;
+            }
+        } else {
+            start = mid + 1;
+        }
+    }
+    return -1;
+};
+
+// 第一个小于等于值
+var search = function(nums, target) {
+    let start = 0;
+    let end = nums.length - 1;
+    while (start <= end) {
+        let mid = start + (end - start >> 1);
+        if (a[mid] > target) {
+            end = mid - 1;
+        } else {
+            if (mid == nums.length - 1 || nums[mid + 1] > target) {
+                return mid
+            } else {
+                start = mid + 1;
+            }
+        }
+    }
+    return -1;
+};

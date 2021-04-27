@@ -35,4 +35,34 @@ var isSubtree = function(s, t) {
     if (isSameTree(s, t)) return true;
     return isSubtree(s.left, t) || isSubtree(s.right, t);
 }
-
+// 993. 二叉树的堂兄弟节点
+// https://leetcode-cn.com/problems/cousins-in-binary-tree/
+var isCousins = function(root, x, y) {
+    let depth = new Map();
+    let parent = new Map();
+    function dfs(root, par) {
+        if (!root) return;
+        depth.set(root.val, par != null ? 1 + depth.get(par.val) : 0);
+        parent.set(root.val, par);
+        dfs(root.left, root);
+        dfs(root.right, root);
+    }
+    dfs(root, null);
+    return (depth.get(x) == depth.get(y) && parent.get(x) != parent.get(y));
+};
+// 1315. 祖父节点值为偶数的节点和
+// https://leetcode-cn.com/problems/sum-of-nodes-with-even-valued-grandparent/
+var sumEvenGrandparent = function(root) {
+    if (!root) return 0;
+    let ans = 0;
+    function dfs(grandparent, parent, node) {
+        if(!node) return;
+        if(grandparent && (grandparent.val % 2) == 0) {
+            ans += node.val;
+        }
+        dfs(parent, node, node.left);
+        dfs(parent, node, node.right);
+    }
+    dfs(null, null, root);
+    return ans;
+};

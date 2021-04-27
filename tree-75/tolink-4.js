@@ -65,3 +65,26 @@ var treeToDoublyList = function(root) {
     head.left = tail;
     return head;
 }
+// 117. 填充每个节点的下一个右侧节点指针 II
+// https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node-ii/
+var connect = function(root) {
+    if(!root) return null;
+    let cur = root;
+    while (cur != null) {
+        let dummy = new Node(0);
+        let pre = dummy;
+        while (cur != null) {
+            if (cur.left != null) {
+                pre.next = cur.left;
+                pre = pre.next;
+            }
+            if (cur.right != null) {
+                pre.next = cur.right;
+                pre = pre.next;
+            }
+            cur = cur.next;
+        }
+        cur = dummy.next;
+    }
+    return root;
+};

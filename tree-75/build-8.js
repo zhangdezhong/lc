@@ -136,3 +136,42 @@ var sortedListToBST = function(head) {
     }
     return toBST(head, null);
 };
+// 剑指 Offer 37. 序列化二叉树
+// https://leetcode-cn.com/problems/xu-lie-hua-er-cha-shu-lcof/
+var serialize = function(root) {
+    if(root == null) return "[]";
+    let res = [];
+    let queue = [root];
+    while(queue.length) {
+        let node = queue.shift();
+        if(node != null) {
+            res.push(node.val);
+            queue.push(node.left);
+            queue.push(node.right);
+        } else {
+            res.push('null');
+        }
+    }
+    return `[${res.join(',')}]`;
+};
+var deserialize = function(data) {
+    if(data == '[]') return null;
+    let vals = data.slice(1, data.length - 1).split(",");
+    let root = new TreeNode(parseInt(vals[0]));
+    let queue = [root];
+    let i = 1;
+    while(queue.length) {
+        let node = queue.shift();
+        if(vals[i] != "null") {
+            node.left = new TreeNode(parseInt(vals[i]));
+            queue.push(node.left);
+        }
+        i++;
+        if(vals[i] != "null") {
+            node.right = new TreeNode(parseInt(vals[i]));
+            queue.push(node.right);
+        }
+        i++;
+    }
+    return root;
+};

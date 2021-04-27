@@ -68,33 +68,62 @@ function merge(nums, left, mid, right, temp) {
     }
 }
 // 快速排序
-var qsort = function(nums) {
-    function randomInteger(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min);
-    }
-    function swap(arr, x, y) {
-        [arr[x], arr[y]] = [arr[y], arr[x]]
-    }
-    function partition(arr, start, end, pivot) {
-        swap(arr, end, pivot);
-        let i = start - 1;
-        for(let j = start; j < end; j++) {
-            if(arr[j] < arr[end]) {
-                i++;
-                swap(arr, i, j);
-            }
+function qsort(nums, left = 0, right = nums.length - 1) {
+    if (left >= right) return;
+    let piovt = Math.floor(left + Math.random() * (right - left + 1));
+    piovt = partition(nums, left, right, piovt);
+    qsort(nums, left, piovt - 1);
+    qsort(nums, piovt + 1, right);
+}
+let swap = (nums, i, j) => [nums[i], nums[j]] = [nums[j], nums[i]];
+function partition(nums, left, end, piovt) {
+    swap(nums, end, piovt);
+    let i = left - 1;
+    for (let j = left; j < end; j++) {
+        if (nums[j] < nums[end]) {
+            i++;
+            swap(nums, i, j);
         }
+    }
+    i++;
+    swap(nums, i, end);
+    return i;
+}
+// 面试题 17.14. 最小K个数
+// https://leetcode-cn.com/problems/smallest-k-lcci/
+var getLeastNumbers = function(arr, k) {
+    randomizedSelected(arr, 0, arr.length - 1, k);
+    return arr.slice(0, k);
+  };
+  
+  function randomizedSelected(arr, left, right, k) {
+    if (left >= right) return;
+    let piovt = Math.floor(Math.random() * (right - left + 1) +  left);
+    piovt = partition(arr, left, right, piovt);
+    let num = piovt - left + 1;
+    if (k == num) {
+      return;
+    } else if (k < num) {
+      randomizedSelected(arr, left, piovt - 1, k);
+    } else {
+      randomizedSelected(arr, piovt + 1, right, k - num);
+    }
+  }
+  function swap(arr, i, j) {
+    let temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+  }
+  function partition(arr, left, right, piovt) {
+    swap(arr, right, piovt);
+    let i = left - 1;
+    for (let j = left; j <= right; j++) {
+      if (arr[j] < arr[right]) {
         i++;
-        swap(arr, i, end);
-        return i;
+        swap(arr, i, j);
+      }
     }
-    function qsort(start, end) {
-        if (start == end) return;
-        let pivot = randomInteger(start, end);
-        pivot = partition(nums, start, end, pivot);
-        qsort(nums, start, pivot - 1);
-        qsort(nums, pivot + 1, end);
-    }
-    qsort(0, nums.length - 1);
-    return nums;
-};
+    i++;
+    swap(arr, i, right);
+    return i;
+  }

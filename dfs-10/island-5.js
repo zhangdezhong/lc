@@ -105,6 +105,38 @@ var closedIsland = function(grid) {
     }
     return res;
 };
+// 面试题 16.19. 水域大小
+// https://leetcode-cn.com/problems/pond-sizes-lcci/
+var pondSizes = function(land) {
+    let dirs =  [[-1, 0], [1, 0], [0, -1], [0, 1], [1, 1], [1, -1], [-1, 1], [-1, -1]];
+    let visited = new Array(land.length);
+    let res = [];
+    for (let i = 0; i < land.length; i++) {
+      visited[i] = new Array(land[0].length).fill(false);
+    }
+    for (let i = 0; i < land.length; i++) {
+      for (let j = 0; j < land[0].length; j++) {
+        if (!visited[i][j] && land[i][j] == 0) {
+          res.push(dfs(land, visited, i, j, dirs));
+        }
+      }
+    }
+    return res.sort((a,b) => a- b);
+  };
+
+  function dfs(land, visited, x, y, dirs) {
+    if (
+      x < 0 || x >= land.length || 
+      y < 0 || y >= land[0].length ||
+      visited[x][y] || land[x][y] != 0
+    ) return 0;
+    visited[x][y] = true;
+    let count = 1;
+    for (let dir of dirs) {
+      count  += dfs(land, visited, x + dir[0], y + dir[1], dirs);
+    }
+    return count;
+  }
 // 695. 岛屿的最大面积
 // https://leetcode-cn.com/problems/max-area-of-island/
 var maxAreaOfIsland = function(grid) {
