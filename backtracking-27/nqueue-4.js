@@ -1,37 +1,56 @@
-var solveNQueens  = function(n)  {
-    function solve(board){
-        for(let i = 0; i < board.length; i++){
-            for(let j = 0; j < board[0].length; j++){
-                if(board[i][j] == '.'){
-                    for(let c = 1; c <= 9; c++){
-                        if(isValid(board, i, j, '' + c)){
-                            board[i][j] = '' + c;
-                            if(solve(board)) {
-                                return true;
-                            }  else {
-                                board[i][j] = '.';
-                            }
-                        }
-                    }
-                    return false;
-                }
+// 52 N皇后 II 
+// https://leetcode-cn.com/problems/n-queens-ii
+// 51 N 皇后 
+// https://leetcode-cn.com/problems/n-queens
+// 面试题 08.12 八皇后
+// https://leetcode-cn.com/problems/eight-queens-lcci
+ var solveNQueens = function(n) {
+    let nQueen = [];
+    let res = [];
+    for(let i = 0; i < n; i++) {
+        nQueen[i] = '';
+        for(let j = 0; j < n; j++) {
+            nQueen[i] += '.';
+        }
+    }
+
+    function slove(row) {
+        if(row == n) {
+            return res.push([...nQueen]);
+        }
+        for(let col = 0; col < n; col++) {
+            if(isValid(row, col)) {
+                nQueen[row] = replace(nQueen[row], col, 'Q');
+                slove(row+1);
+                nQueen[row] = replace(nQueen[row], col, '.');
+            }
+        }
+    }
+
+    function isValid(row, col) {
+        for(let i = 0; i < n; i++) {
+            if(nQueen[i][col] == 'Q') {
+                return false
+            }
+        }
+        for(let i = row - 1, j = col-1; i >= 0 && j>= 0; i--, j--) {
+            if(nQueen[i][j] == 'Q') {
+                return false
+            }
+        }
+        for(let i = row - 1, j = col+1; i>=0 && j <n; i--, j++) {
+            if(nQueen[i][j] == 'Q') {
+                return false
             }
         }
         return true;
     }
-    function isValid(board, row, col, c) {
-        for(let i = 0; i < 9; i++) {
-            if(bboard[i][col] == c) return false;
-            if(board[row][i] == c) return false;
-            let boxi = 3 * Math.floor(row / 3) + Math.floor(i / 3);
-            let boxj = 3 * Math.floor(col / 3) + i % 3
-            if(board[boxi][boxj] == c) return false; 
-        }
-        return true;
+    function replace(str, index, c) {
+        return str.slice(0, index) + c + str.slice(index+1);
     }
-    if(board.length == 0) return;
-    solve(board);
-}
+    slove(0)
+    return res;
+};
 // 36. 有效的数独 https://leetcode-cn.com/problems/valid-sudoku/
 var isValidSudoku = function(board) {
     const [rows, cols, boxes] = [[], [], []];

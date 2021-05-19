@@ -1,6 +1,8 @@
 // 递归 合并两个有序链表
 // 21. 合并两个有序链表
 // https://leetcode-cn.com/problems/merge-two-sorted-lists/
+// 剑指 Offer 25. 合并两个排序的链表
+// https://leetcode-cn.com/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/
 var mergeTwoLists = function(l1, l2) {
     if(!l1) return l2;
     if(!l2) return l1;

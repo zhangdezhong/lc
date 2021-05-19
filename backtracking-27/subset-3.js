@@ -32,6 +32,7 @@ var subsetsWithDup = function(nums) {
     return res;
 };
 // 1079. 活字印刷
+// https://leetcode-cn.com/problems/letter-tile-possibilities/
 var numTilePossibilities = function(tiles) {
     let ans = 0;
     let visit = new Array(tiles.length).fill(0);

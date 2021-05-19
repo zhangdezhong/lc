@@ -94,36 +94,36 @@ function partition(nums, left, end, piovt) {
 var getLeastNumbers = function(arr, k) {
     randomizedSelected(arr, 0, arr.length - 1, k);
     return arr.slice(0, k);
-  };
+};
   
-  function randomizedSelected(arr, left, right, k) {
+function randomizedSelected(arr, left, right, k) {
     if (left >= right) return;
     let piovt = Math.floor(Math.random() * (right - left + 1) +  left);
     piovt = partition(arr, left, right, piovt);
     let num = piovt - left + 1;
     if (k == num) {
-      return;
+        return;
     } else if (k < num) {
-      randomizedSelected(arr, left, piovt - 1, k);
+        randomizedSelected(arr, left, piovt - 1, k);
     } else {
-      randomizedSelected(arr, piovt + 1, right, k - num);
+        randomizedSelected(arr, piovt + 1, right, k - num);
     }
-  }
-  function swap(arr, i, j) {
+}
+function swap(arr, i, j) {
     let temp = arr[i];
     arr[i] = arr[j];
     arr[j] = temp;
-  }
-  function partition(arr, left, right, piovt) {
+    }
+    function partition(arr, left, right, piovt) {
     swap(arr, right, piovt);
     let i = left - 1;
     for (let j = left; j <= right; j++) {
-      if (arr[j] < arr[right]) {
+        if (arr[j] < arr[right]) {
         i++;
         swap(arr, i, j);
-      }
+        }
     }
     i++;
     swap(arr, i, right);
     return i;
-  }
+}

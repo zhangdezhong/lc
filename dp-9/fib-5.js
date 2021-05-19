@@ -1,5 +1,7 @@
 // 509. 斐波那契数
 // https://leetcode-cn.com/problems/fibonacci-number/
+// 剑指 Offer 10- I 斐波那契数列
+// https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof
 // 递归
 function fib(n) {
   if (n < 2) return n;
@@ -33,6 +35,16 @@ function fib() {
   }
   return second;
 }
+// 70. 爬楼梯
+// https://leetcode-cn.com/problems/climbing-stairs/
+var climbStairs = function(n) {
+  let fisrt = 1;
+  let second = 1;
+  for (let i = 2; i <= n; i++) {
+    [fisrt, second] = [second,fisrt+ second]
+  }
+  return second;
+};
 // 746. 使用最小花费爬楼梯
 // https://leetcode-cn.com/problems/min-cost-climbing-stairs/
 var minCostClimbingStairs = function(cost) {

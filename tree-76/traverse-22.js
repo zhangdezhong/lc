@@ -97,10 +97,10 @@ var postorder = function(root) {
 
 // 102. 二叉树的层序遍历
 // https://leetcode-cn.com/problems/binary-tree-level-order-traversal/
-// 107. 二叉树的层次遍历 II 
+// 107. 二叉树的层序遍历 II
 // https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/
 // ans.reverse
-// 103. 二叉树的锯齿形层次遍历
+// 103. 二叉树的锯齿形层序遍历
 // https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/
 // 剑指 Offer 32 - II. 从上到下打印二叉树 II
 // https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-ii-lcof/
