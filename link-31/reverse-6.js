@@ -88,6 +88,8 @@ var reverseKGroup = function(head, k) {
 };
 // 234. 回文链表
 // https://leetcode-cn.com/problems/palindrome-linked-list/
+// 面试题 02.06 回文链表
+// https://leetcode-cn.com/problems/palindrome-linked-list-lcci
 var isPalindrome = function(head) {
     if(!head || !head.next)  return true;
     let fast = head, slow = head, pre = null;
