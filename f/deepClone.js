@@ -87,3 +87,20 @@ function helper(matrix, i, j, dp){
   return dp[i][j] = Math.min(d1, d2,d3) + matrix[i][j];
 }
 
+
+var findNumberIn2DArray = function(matrix, target) {
+  if(matrix.length == 0) return false;
+  let row = matrix.length - 1;
+  let col = 0;
+  while (row > 0 && col < matrix[0].length) {
+    if (matrix[row][col] == target) return true;
+    if (target > matrix[row][col]) {
+      col++;
+    } else {
+      row--;
+    }
+  }
+  return false;
+};
+
+findNumberIn2DArray([[-5]], -5);
