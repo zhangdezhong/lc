@@ -74,23 +74,28 @@ class MyStack {
 }
 // 155. 最小栈
 // https://leetcode-cn.com/problems/min-stack/
+// 剑指 Offer 30. 包含min函数的栈
+// https://leetcode-cn.com/problems/bao-han-minhan-shu-de-zhan-lcof/
 class MinStack {
   constructor() {
-    this.x_stack = [];
-    this.min_stack = [Infinity];
+    this.stack1 = [];
+    this.stack2 = [Infinity];
   }
-  push(x) {
-    this.x_stack.push(x);
-    this.min_stack.push(Math.min(this.min_stack[this.min_stack.length - 1], x));
+  push(val) {
+    this.stack1.push(val);
+    if(this.stack2[this.stack2.length - 1] >= val) {
+      this.stack2.push(val);
+    }
   }
   pop() {
-    this.x_stack.pop();
-    this.min_stack.pop();
+    if (this.stack1.pop() == this.stack2[this.stack2.length - 1]) {
+      this.stack2.pop();
+    }
   }
   top() {
-    return this.x_stack[this.x_stack.length - 1];
+    return this.stack1[this.stack1.length - 1];
   }
   getMin() {
-    return this.min_stack[this.min_stack.length - 1];
+    return this.stack2[this.stack2.length - 1];
   }
 };
