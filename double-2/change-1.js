@@ -14,3 +14,23 @@ var exchange = function(nums = []) {
   }
   return nums;
 };
+// 剑指 Offer 58 - I. 翻转单词顺序
+// https://leetcode-cn.com/problems/fan-zhuan-dan-ci-shun-xu-lcof/
+var reverseWords = function(s) {
+  if (!s) return '';
+  let temp = s.trim();
+  let start = temp.length - 1;
+  let end = temp.length - 1;
+  let ans = '';
+  while (start >= 0) {
+    while (start >= 0 && temp[start] != ' ') {
+      start--;
+    }
+    ans += temp.slice(start + 1, end + 1) + ' ';
+    while (start >= 0 && temp[start] == ' ') {
+      start--;
+    }
+    end = start;
+  }
+  return ans.trim();
+};
