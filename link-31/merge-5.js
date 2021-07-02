@@ -28,7 +28,7 @@ var mergeTwoLists = function(l1, l2) {
         }
         dummy = dummy.next;
     }
-    dummy.next = l1 === null ? l2 : l1;
+    dummy.next = l1 ? l1 : l2;
     return pre.next;
 }
 // 合并K个升序链表 分治

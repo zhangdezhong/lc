@@ -9,6 +9,7 @@ let ff = "15 三数之和,https://leetcode-cn.com/problems/3sum/solution|16 最�
 let ss = ff;
 let arr = ss.split('|');
 let not = [];
+let start = new Date();
 let all = arr.map((elem, i) => {
     let aa = elem.split(',');
     let search = elem = aa[1].replace('/solution', '')
@@ -27,6 +28,7 @@ Promise.all(all).then(() => {
     not.forEach((data, i) => {
         fs.appendFile('a2.log', data + '\n', function() {});
     })
+    console.log(`------------${(new Date - start)/1000}------------`)
 })
 
 // let ss = document.querySelectorAll('.reactable-data tr');
