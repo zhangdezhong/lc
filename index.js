@@ -1,1 +1,1 @@
-const addon = require('bindings')('addon')
+// const addon = require('bindings')('addon')

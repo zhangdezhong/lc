@@ -66,10 +66,9 @@ function isSymmetric(root) {
 // 226. 翻转二叉树
 // https://leetcode-cn.com/problems/invert-binary-tree/
 var mirrorTree = function(root) {
-    if(!root || root.length ==  0) return root;
-    [root.left, root.right] = [root.right, root.left];
-    
-    mirrorTree(root.left)
-    mirrorTree(root.right)
-    return root
+    if (!root) return null;
+    let res = new TreeNode(root.val);
+    res.left = mirrorTree(root.right);
+    res.right = mirrorTree(root.left);
+    return res;
 };
