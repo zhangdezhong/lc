@@ -3,12 +3,12 @@
 var preorderTraversal = function(root) {
     let res = [];
     if(!root) return res;
-    let st = [root];
-    while(st.length) {
-        root = st.pop();
+    let stack = [root];
+    while(stack.length) {
+        root = stack.pop();
         res.push(root.val);
-        root.right && st.push(root.right);
-        root.left && st.push(root.left);
+        root.right && stack.push(root.right);
+        root.left && stack.push(root.left);
     }
     return res;
 };
@@ -44,18 +44,16 @@ var inorderTraversal = function(root) {
     let stack = []
     let ans = []
     while(root || stack.length) {
-        if (root) {
+        while (root) {
             stack.push(root);
             root = root.left;
-            continue;
         }
-        root = stack.pop()
-        ans.push(root.val)
+        root = stack.pop();
+        ans.push(root.val);
         root = root.right
     }
     return ans
 };
-
 var inorderTraversal = function(root) {
     let ans  = [];
     function helper(root) {
@@ -73,8 +71,8 @@ var postorderTraversal = root => {
     let res = [], stack = [];
     while (root || stack.length) {
         res.push(root.val)
-        if (root.left) stack.push(root.left)
-        if (root.right) stack.push(root.right)
+        root.left && stack.push(root.left)
+        root.right && stack.push(root.right)
         root = stack.pop()
     }
     return res.reverse();
