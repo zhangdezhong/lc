@@ -1,0 +1,55 @@
+原型链的问题
+    1、主要问题出现在原型中包含引用值的时候
+    2、子类型在实例化时不能给父类型的构造函数传参
+
+1、盗用构造函数
+    function SubType() {
+        SuperType.call(this);
+    }
+    问题
+        1、必须在构造函数中定义方法
+        2、子类也不能访问父类原型上定义的方法
+2、组合继承 
+    1、综合了原型链和盗用构造函数
+    function SubType(name, age) {
+        SuperType.call(this, name);
+    }
+    // 继承方法
+    SubType.prototype = new SuperType();
+    问题
+    组合继承其实也存在效率问题。最主要的效率问题就是父类构造函数始终会被调用两次
+
+3、原型式继承
+    function object(o) {
+        function F() {}
+        F.prototype = o;
+        return new F();
+    }
+    你有一个对象，想在它的基础上再创建一个新对象
+4、寄生式继承
+    function createAnother(original){
+        let clone = object(original);
+        clone.sayHi = function() {
+            console.log("hi");
+        };
+        return clone;
+    }
+    寄生式继承同样适合主要关注对象，而不在乎类型和构造函数的场景
+5、寄生式组合继承
+    function inheritPrototype(subType, superType) {
+        let prototype = object(superType.prototype); // 创建对象 
+        prototype.constructor = subType; // 增强对象 
+        subType.prototype = prototype; // 赋值对象
+    }
+
+    function SubType(name, age) {
+        SuperType.call(this, name);
+    }
+  inheritPrototype(SubType, SuperType);  
+
+class Person extends Object {
+    constructor() {
+        super();
+        this.locate = () => console.log('instance');
+    }
+}

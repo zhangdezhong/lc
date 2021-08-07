@@ -33,3 +33,32 @@ Array.prototype.fakeFlat = function(num = 1) {
   }
   return arr;
 };
+const rejectHandler = reason => ({status: "rejected", reason})
+const resolveHandler = value => ({status: "fulfilled", value})
+Promise.allSettled = promises => {
+  return Promise.all(
+    promises.map(promise =>
+      Promise.resolve(promise) 
+        .then(resolveHandler, rejectHandler)
+    )
+  );
+}
+
+Promise.prototype.all = function(promises) {
+  let results = [];
+  let promiseCount = 0;
+  let promisesLength = promises.length;
+  return new Promise(function(resolve, reject) {
+    for (let i = 0; i < promises.length; i++) {
+      Promise.resolve(promises[i]).then(function(res) {
+        promiseCount++;
+        results[i] = res;
+        if (promiseCount === promisesLength) {
+          return resolve(results);
+        }
+      }, function(err) {
+        return reject(err);
+      });
+    }
+  });
+};
