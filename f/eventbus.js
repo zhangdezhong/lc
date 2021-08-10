@@ -1,45 +1,41 @@
 Vue.prototype.$on = function (event, fn) {
-  const vm = this
   if (Array.isArray(event)) {
     for (let i = 0, l = event.length; i < l; i++) {
-      vm.$on(event[i], fn)
+      this.$on(event[i], fn)
     }
   } else {
-    (vm._events[event] || (vm._events[event] = [])).push(fn)
+    (this._events[event] || (this._events[event] = [])).push(fn)
   }
-  return vm
 }
 
 Vue.prototype.$once = function (event, fn) {
-  const vm = this
+  const self = this
   function on () {
-    vm.$off(event, on)
-    fn.apply(vm, arguments)
+    self.$off(event, on)
+    fn.apply(self, arguments)
   }
   on.fn = fn
-  vm.$on(event, on)
-  return vm
+  this.$on(event, on);
 }
 
 Vue.prototype.$off = function (event, fn) {
-  const vm = this
   if (!arguments.length) {
-    vm._events = Object.create(null)
-    return vm
+    this._events = Object.create(null)
+    return;
   }
   if (Array.isArray(event)) {
     for (let i = 0, l = event.length; i < l; i++) {
-      vm.$off(event[i], fn)
+      this.$off(event[i], fn)
     }
-    return vm
+    return
   }
-  const cbs = vm._events[event]
+  const cbs = this._events[event]
   if (!cbs) {
-    return vm
+    return
   }
   if (!fn) {
-    vm._events[event] = null
-    return vm
+    this._events[event] = null
+    return
   }
   let cb
   let i = cbs.length
@@ -50,19 +46,14 @@ Vue.prototype.$off = function (event, fn) {
       break
     }
   }
-  return vm
 }
 
 Vue.prototype.$emit = function (event) {
-  const vm = this
   let cbs = vm._events[event]
   if (cbs) {
-    cbs = cbs.length > 1 ? toArray(cbs) : cbs
-    const args = toArray(arguments, 1)
-    const info = `event handler for "${event}"`
+    const args = [].slice.call(arguments, 1);
     for (let i = 0, l = cbs.length; i < l; i++) {
-      args ? cbs[i].apply(vm, args) : cbs[i].call(vm);
+      args ? cbs[i].apply(this, args) : cbs[i].call(this);
     }
   }
-  return vm
 }
