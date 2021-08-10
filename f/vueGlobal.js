@@ -10,8 +10,76 @@ function isPrimitive (value) {
         typeof value === 'boolean'
     )
 }
+function def (obj, key, val, enumerable) {
+  Object.defineProperty(obj, key, {
+    value: val,
+    enumerable: !!enumerable,
+    writable: true,
+    configurable: true
+  })
+}
 function isObject (obj) {
     return obj !== null && typeof obj === 'object'
+}
+function protoAugment (target, src) {
+  target.__proto__ = src
+}
+function copyAugment (target, src, keys) {
+  for (let i = 0, l = keys.length; i < l; i++) {
+    const key = keys[i]
+    def(target, key, src[key])
+  }
+}
+export class Observer {
+  constructor (value) {
+    this.value = value
+    this.dep = new Dep()
+    this.vmCount = 0
+    def(value, '__ob__', this)
+    if (Array.isArray(value)) {
+      if (hasProto) {
+        protoAugment(value, arrayMethods)
+      } else {
+        copyAugment(value, arrayMethods, arrayKeys)
+      }
+      this.observeArray(value)
+    } else {
+      this.walk(value)
+    }
+  }
+  walk (obj) {
+    const keys = Object.keys(obj)
+    for (let i = 0; i < keys.length; i++) {
+      defineReactive(obj, keys[i])
+    }
+  }
+  observeArray (items) {
+    for (let i = 0, l = items.length; i < l; i++) {
+      observe(items[i])
+    }
+  }
+}
+
+function observe (value, asRootData) {
+  if (!isObject(value) || value instanceof VNode) {
+    return
+  }
+  let ob;
+  if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
+    ob = value.__ob__
+  } else if (
+    shouldObserve &&
+    !isServerRendering() &&
+    (Array.isArray(value) || isPlainObject(value)) &&
+    Object.isExtensible(value) &&
+    !value._isVue
+  ) {
+    ob = new Observer(value)
+  }
+  if (asRootData && ob) {
+    ob.vmCount++
+  }
+  return ob
 }
 
 function defineReactive (obj, key, val, customSetter, shallow) {
@@ -66,12 +134,7 @@ function defineReactive (obj, key, val, customSetter, shallow) {
       }
     })
 }
-function set (target, key, val) {
-    if (process.env.NODE_ENV !== 'production' &&
-      (isUndef(target) || isPrimitive(target))
-    ) {
-      warn(`Cannot set reactive property on undefined, null, or primitive value: ${(target: any)}`)
-    }
+Vue.prototype.$set = function set (target, key, val) {
     if (Array.isArray(target) && isValidArrayIndex(key)) {
       target.length = Math.max(target.length, key)
       target.splice(key, 1, val)
@@ -83,10 +146,6 @@ function set (target, key, val) {
     }
     const ob = target.__ob__
     if (target._isVue || (ob && ob.vmCount)) {
-      process.env.NODE_ENV !== 'production' && warn(
-        'Avoid adding reactive properties to a Vue instance or its root $data ' +
-        'at runtime - declare it upfront in the data option.'
-      )
       return val
     }
     if (!ob) {
@@ -98,22 +157,13 @@ function set (target, key, val) {
     return val
 }
 
-function del(target, key) {
-    if (process.env.NODE_ENV !== 'production' &&
-      (isUndef(target) || isPrimitive(target))
-    ) {
-      warn(`Cannot delete reactive property on undefined, null, or primitive value: ${(target: any)}`)
-    }
+Vue.prototype.$delete = function del(target, key) {
     if (Array.isArray(target) && isValidArrayIndex(key)) {
       target.splice(key, 1)
       return
     }
-    const ob = (target: any).__ob__
+    const ob = target.__ob__
     if (target._isVue || (ob && ob.vmCount)) {
-      process.env.NODE_ENV !== 'production' && warn(
-        'Avoid deleting properties on a Vue instance or its root $data ' +
-        '- just set it to null.'
-      )
       return
     }
     if (!hasOwn(target, key)) {
@@ -126,5 +176,55 @@ function del(target, key) {
     ob.dep.notify()
 }
 
+function dependArray(value) {
+  for (let e, i = 0, l = value.length; i < l; i++) {
+    e = value[i]
+    e && e.__ob__ && e.__ob__.dep.depend()
+    if (Array.isArray(e)) {
+      dependArray(e)
+    }
+  }
+}
 
+Vue.prototype.$watch = function (expOrFn, cb, options) {
+  const vm = this
+  if (isPlainObject(cb)) {
+    return createWatcher(vm, expOrFn, cb, options)
+  }
+  options = options || {}
+  options.user = true
+  const watcher = new Watcher(vm, expOrFn, cb, options)
+  if (options.immediate) {
+    pushTarget()
+    invokeWithErrorHandling(cb, vm, [watcher.value], vm, info)
+    popTarget()
+  }
+  return function unwatchFn () {
+    watcher.teardown()
+  }
+}
 
+function isPlainObject (obj) {
+  return Object.prototype.toString.call(obj) === '[object Object]'
+}
+
+function createWatcher (vm, expOrFn, handler, options) {
+  if (isPlainObject(handler)) {
+    options = handler
+    handler = handler.handler
+  }
+  if (typeof handler === 'string') {
+    handler = vm[handler]
+  }
+  return vm.$watch(expOrFn, handler, options)
+}
+
+function pushTarget (target: ?Watcher) {
+  targetStack.push(target)
+  Dep.target = target
+}
+
+function popTarget () {
+  targetStack.pop()
+  Dep.target = targetStack[targetStack.length - 1]
+}
